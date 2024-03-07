@@ -107,9 +107,9 @@
           div.className = "card";
           // <img src="http://localhost:8080/questions/${question.id}/image" alt="question" style="width:100%">
 
-          let innerHtml = `
-          <img src="http://localhost:8080/questions/${question.id}/image" alt="question" style="width:100%">
-        <div class="container">
+          let innerHtml =
+            //<img src="http://localhost:8080/questions/${question.id}/image" alt="question" style="width:100%">
+            `<div class="container">
           <h4><b>${question.id}</b></h4>
           <p>${question.description}</p>
           <form>
@@ -150,6 +150,7 @@
             break;
         }
         question.id = questions.length + 1;
+
         addTheQuestion(question);
       }
 
@@ -164,9 +165,11 @@
           body: JSON.stringify(question),
         };
         let response = await fetch(host + "/questions", request);
+        let result = await response.json();
         if (response.status == 200) {
           let imageFileInput = document.getElementById("imageUpload");
           let imageFile = imageFileInput.files[0];
+
           let result = await submitTheImage(question.id, imageFile);
 
           if (result) {
@@ -193,6 +196,7 @@
           host + "/questions/" + id + "/image",
           request
         );
+
         let result = await response.json();
         console.log(result);
         return result;
